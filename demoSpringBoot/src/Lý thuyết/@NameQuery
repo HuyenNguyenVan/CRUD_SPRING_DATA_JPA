@@ -1,0 +1,24 @@
+ org.springframework.orm.jpa.JpaSystemException:
+ failed to lazily initialize a collection of role: com.example.demoSpringBoot.entity.Category.products,
+ could not initialize proxy - no Session; nested exception is org.hibernate.LazyInitializationException:
+ failed to lazily initialize a collection of role: com.example.demoSpringBoot.entity.Category.products,
+ could not initialize proxy - no Session
+- Có 2 entity là Product và Category với quan hệ 1(Categoryc) - n (products)
+
+trường hợp chưa có @Translation
+bên Category em để fetch = FetchType.LAZY khi viết câu query = select c from Category c
+        for (Category category : productList) {
+            System.out.println(" --------------- " + category.getNameCategory());
+//            System.out.println(" +++++++++++++++++++ " + category.getProducts().get(0).getNameProduct());
+        }
+
+        nếu đóng dòng 11 thì trương trình vẫn chạy ok
+        nhưng nếu em bật dòng 12 có nghĩa là đang muốn lấy cả thằng con thông qua thằng cha thì bị bão lỗi như trên
+- nếu mà chuyển thằng này thành fetch = FetchType.EAGERS thì ok không sử dụng thằng @Translation cũng được vẫn chạy
+
+
+------------------- > Nên sử dụng thằng join fetch nhé khi lấy cả thằng con hoặc chúng ta có thể viết câu query thường như inner join
+
+- Trong trường hợp sử dụng @Translation lại được
+-------------- > vậy FetchType.LAZY có quan hệ gì với thằng @Translation
+
